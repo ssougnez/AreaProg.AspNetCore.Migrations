@@ -106,7 +106,7 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
             {
                 var strategy = dbContext.Database.CreateExecutionStrategy();
 
-                _logger.LogInformation($"Applying Entity Framework Core migrations...");
+                _logger.LogInformation("Applying Entity Framework Core migrations...");
 
                 await strategy.ExecuteAsync(async () =>
                 {
@@ -119,7 +119,7 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
                     await transaction.CommitAsync();
                 });
 
-                _logger.LogInformation($"Entity Framework Core applied!");
+                _logger.LogInformation("Entity Framework Core migrations applied");
 
                 await engine.RunAfterDatabaseMigration();
             }
@@ -130,7 +130,7 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
 
             foreach (var migration in migrations)
             {
-                _logger.LogInformation($"Applying version {migration.Version}");
+                _logger.LogInformation("Applying version {Version}", migration.Version);
 
                 migration.FirstTime = !applied.Any(v => v == migration.Version);
 
@@ -147,15 +147,15 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
                     await migration.UpAsync();
                 }
 
-                _logger.LogInformation($"Version {migration.Version} applied!");
+                _logger.LogInformation("Version {Version} applied", migration.Version);
 
                 if (migration.Version != current)
                 {
-                    _logger.LogInformation($"Registering version {migration.Version}...");
+                    _logger.LogInformation("Registering version {Version}...", migration.Version);
 
                     await engine.RegisterVersionAsync(migration.Version);
 
-                    _logger.LogInformation($"Version {migration.Version} registered!");
+                    _logger.LogInformation("Version {Version} registered", migration.Version);
                 }
             }
         }
