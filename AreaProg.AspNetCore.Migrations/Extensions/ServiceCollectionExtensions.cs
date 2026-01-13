@@ -23,7 +23,7 @@ public class ApplicationMigrationsOptions<T>
     ///   <item>Wrap each application migration in a database transaction</item>
     /// </list>
     /// </remarks>
-    public Type DbContext { get; set; }
+    public Type? DbContext { get; set; }
 }
 
 /// <summary>
@@ -49,7 +49,7 @@ public static class ServiceCollectionExtensions
     /// });
     /// </code>
     /// </example>
-    public static IServiceCollection AddApplicationMigrations<T>(this IServiceCollection services, Action<ApplicationMigrationsOptions<T>> setupAction = null)
+    public static IServiceCollection AddApplicationMigrations<T>(this IServiceCollection services, Action<ApplicationMigrationsOptions<T>>? setupAction = null)
     {
         var options = new ApplicationMigrationsOptions<T>();
 

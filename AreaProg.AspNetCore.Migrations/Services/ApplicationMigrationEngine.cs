@@ -35,7 +35,7 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
     private readonly ILogger<IApplicationMigrationEngine> _logger;
     private readonly SemaphoreSlim _semaphore = new(1, 1);
 
-    private BaseMigration[] _applicationMigrations = null;
+    private BaseMigration[] _applicationMigrations = Array.Empty<BaseMigration>();
     private volatile bool _hasRun;
 
     /// <inheritdoc />
@@ -215,8 +215,9 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
             .GetType()
             .Assembly
             .GetTypes()
-            .Where(t => IsInheritingFrom(t, typeof(BaseMigration)) && t.IsAbstract == false)
-            .Select(t => ActivatorUtilities.CreateInstance(scope.ServiceProvider, t) as BaseMigration)
+            .Where(t => IsInheritingFrom(t, typeof(BaseMigration)) && !t.IsAbstract)
+            .Select(t => ActivatorUtilities.CreateInstance(scope.ServiceProvider, t))
+            .OfType<BaseMigration>()
             .OrderBy(t => t.Version)
             .ToArray();
     }

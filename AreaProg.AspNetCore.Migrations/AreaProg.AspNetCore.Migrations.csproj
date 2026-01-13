@@ -4,7 +4,7 @@
 		<TargetFrameworks>net6.0;net8.0;net9.0;net10.0</TargetFrameworks>
 		<LangVersion>10.0</LangVersion>
 		<ImplicitUsings>disable</ImplicitUsings>
-		<Nullable>disable</Nullable>
+		<Nullable>enable</Nullable>
 
 		<!-- Package metadata -->
 		<PackageId>AreaProg.AspNetCore.Migrations</PackageId>
