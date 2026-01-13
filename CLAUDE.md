@@ -35,7 +35,7 @@ The library uses an abstract base class pattern for extensibility:
    - Discovers `BaseMigration` implementations via reflection from assembly containing type `T`
    - Executes migrations sequentially based on version ordering
    - Wraps migrations in EF Core transactions when DbContext is configured
-   - Provides lifecycle hooks: `RunBeforeAsync()`, `RunAfterAsync()`, `RunAfterDatabaseMigration()`
+   - Provides lifecycle hooks: `RunBeforeAsync()`, `RunAfterAsync()`, `RunAfterDatabaseMigrationAsync()`
 
 ### DI Registration
 

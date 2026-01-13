@@ -56,7 +56,7 @@ public abstract class BaseMigration
     /// execution pointer past the <c>if (FirstTime)</c> check.
     /// </para>
     /// </remarks>
-    public bool FirstTime { get; set; }
+    public bool FirstTime { get; internal set; }
 
     /// <summary>
     /// Method called to apply the migration.

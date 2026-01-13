@@ -134,16 +134,12 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
                 {
                     dbContext.Database.SetCommandTimeout(TimeSpan.FromMinutes(15));
 
-                    await using var transaction = await dbContext.Database.BeginTransactionAsync();
-
                     await dbContext.Database.MigrateAsync();
-
-                    await transaction.CommitAsync();
                 });
 
                 _logger.LogInformation("Entity Framework Core migrations applied");
 
-                await engine.RunAfterDatabaseMigration();
+                await engine.RunAfterDatabaseMigrationAsync();
             }
 
             var migrations = _applicationMigrations

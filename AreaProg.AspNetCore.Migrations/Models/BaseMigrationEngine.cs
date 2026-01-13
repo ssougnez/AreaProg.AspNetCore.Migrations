@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 /// </para>
 /// <para>
 /// The engine provides lifecycle hooks (<see cref="RunBeforeAsync"/>, <see cref="RunAfterAsync"/>,
-/// <see cref="RunAfterDatabaseMigration"/>) that can be overridden to execute custom logic during the migration process.
+/// <see cref="RunAfterDatabaseMigrationAsync"/>) that can be overridden to execute custom logic during the migration process.
 /// </para>
 /// </remarks>
 [ExcludeFromCodeCoverage]
@@ -33,12 +33,6 @@ public abstract class BaseMigrationEngine
     /// </summary>
     /// <returns>An array of versions that have been applied, used to determine which migrations to run.</returns>
     public abstract Task<Version[]> GetAppliedVersionAsync();
-
-    /// <summary>
-    /// Returns the current version of the application.
-    /// </summary>
-    /// <returns>The current application version.</returns>
-    public abstract Task<Version> GetCurrentVersionAsync();
 
     /// <summary>
     /// Registers a version as applied in the external storage system.
@@ -73,5 +67,5 @@ public abstract class BaseMigrationEngine
     /// but before application migrations run.
     /// </remarks>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public virtual Task RunAfterDatabaseMigration() => Task.CompletedTask;
+    public virtual Task RunAfterDatabaseMigrationAsync() => Task.CompletedTask;
 }
