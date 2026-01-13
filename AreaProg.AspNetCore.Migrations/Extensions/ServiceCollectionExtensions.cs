@@ -11,7 +11,7 @@ using System;
 /// Configuration options for application migrations.
 /// </summary>
 /// <typeparam name="T">The migration engine type, must inherit from <see cref="BaseMigrationEngine"/>.</typeparam>
-public class ApplicationMigrationsOptions<T>
+public class ApplicationMigrationsOptions<T> where T : BaseMigrationEngine
 {
     /// <summary>
     /// Gets or sets the Entity Framework Core DbContext type used by the application.
@@ -49,7 +49,7 @@ public static class ServiceCollectionExtensions
     /// });
     /// </code>
     /// </example>
-    public static IServiceCollection AddApplicationMigrations<T>(this IServiceCollection services, Action<ApplicationMigrationsOptions<T>>? setupAction = null)
+    public static IServiceCollection AddApplicationMigrations<T>(this IServiceCollection services, Action<ApplicationMigrationsOptions<T>>? setupAction = null) where T : BaseMigrationEngine
     {
         var options = new ApplicationMigrationsOptions<T>();
 

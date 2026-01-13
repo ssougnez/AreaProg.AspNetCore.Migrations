@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 /// each migration is wrapped in a database transaction for atomicity.
 /// </para>
 /// </remarks>
-public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
+public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine where T : BaseMigrationEngine
 {
     private readonly ApplicationMigrationsOptions<T> _options;
     private readonly IServiceProvider _serviceProvider;
