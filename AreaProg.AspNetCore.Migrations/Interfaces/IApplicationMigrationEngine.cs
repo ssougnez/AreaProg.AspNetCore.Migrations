@@ -1,18 +1,30 @@
-﻿namespace AreaProg.AspNetCore.Migrations.Interfaces
+namespace AreaProg.AspNetCore.Migrations.Interfaces
 {
+    using System.Threading.Tasks;
+
     /// <summary>
-    /// 
+    /// Defines the contract for an application migration engine.
     /// </summary>
     public interface IApplicationMigrationEngine
     {
         /// <summary>
-        /// Returns whether the migrations have been applied or not
+        /// Gets a value indicating whether the migrations have been applied.
         /// </summary>
         bool HasRun { get; }
 
         /// <summary>
-        /// Apply the migrations
+        /// Applies pending migrations synchronously.
         /// </summary>
+        /// <remarks>
+        /// This method blocks until all migrations are applied.
+        /// For async scenarios, prefer <see cref="RunAsync"/>.
+        /// </remarks>
         void Run();
+
+        /// <summary>
+        /// Applies pending migrations asynchronously.
+        /// </summary>
+        /// <returns>A task representing the asynchronous migration operation.</returns>
+        Task RunAsync();
     }
 }

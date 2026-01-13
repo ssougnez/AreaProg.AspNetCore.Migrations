@@ -8,31 +8,45 @@ using AreaProg.AspNetCore.Migrations.Interfaces;
 using AreaProg.AspNetCore.Migrations.Models;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 /// <summary>
-/// Application migrations engine
+/// Default implementation of <see cref="IApplicationMigrationEngine"/> that discovers and executes application migrations.
 /// </summary>
+/// <typeparam name="T">
+/// The type of the migration engine. Must inherit from <see cref="BaseMigrationEngine"/>.
+/// Migrations are discovered from the assembly containing this type.
+/// </typeparam>
+/// <remarks>
+/// <para>
+/// This engine automatically discovers all <see cref="BaseMigration"/> implementations in the assembly
+/// containing type <typeparamref name="T"/> and executes them in version order.
+/// </para>
+/// <para>
+/// When a <see cref="DbContext"/> is configured via <see cref="ApplicationMigrationsOptions{T}"/>,
+/// each migration is wrapped in a database transaction for atomicity.
+/// </para>
+/// </remarks>
 public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
 {
     private readonly ApplicationMigrationsOptions<T> _options;
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<IApplicationMigrationEngine> _logger;
+    private readonly SemaphoreSlim _semaphore = new(1, 1);
 
     private BaseMigration[] _applicationMigrations = null;
-    private bool _hasRun = false;
+    private volatile bool _hasRun;
 
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <inheritdoc />
     public bool HasRun => _hasRun;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ApplicationMigrationEngine{T}"/> class.
     /// </summary>
-    /// <param name="serviceProvider"></param>
-    /// <param name="options"></param>
-    /// <param name="logger"></param>
+    /// <param name="serviceProvider">The service provider used to resolve dependencies for migrations.</param>
+    /// <param name="options">The migration options containing configuration such as the DbContext type.</param>
+    /// <param name="logger">The logger for recording migration progress and errors.</param>
     public ApplicationMigrationEngine(
         IServiceProvider serviceProvider,
         ApplicationMigrationsOptions<T> options,
@@ -44,54 +58,68 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
         _logger = logger;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public void Run() => RunAsync().Wait();
+    /// <inheritdoc />
+    public void Run() => RunAsync().GetAwaiter().GetResult();
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    private async Task RunAsync()
+    /// <inheritdoc />
+    public async Task RunAsync()
     {
-        using var scope = _serviceProvider.CreateScope();
-
-        var engine = ActivatorUtilities.CreateInstance(scope.ServiceProvider, _options.GetType().GetGenericArguments()[0].UnderlyingSystemType) as BaseMigrationEngine;
-
-        if (engine is null)
+        if (_hasRun)
         {
-            _logger.LogError("No migration engine defined");
-
-            throw new ArgumentException();
+            return;
         }
-        else
+
+        await _semaphore.WaitAsync();
+
+        try
         {
-            if (engine.ShouldRun)
+            if (_hasRun)
             {
-                PopulateApplicationMigrations(scope, engine);
+                return;
+            }
 
-                await engine.RunBeforeAsync();
+            using var scope = _serviceProvider.CreateScope();
 
-                await ApplyMigrationsAsync(engine, scope);
+            var engine = ActivatorUtilities.CreateInstance(scope.ServiceProvider, _options.GetType().GetGenericArguments()[0].UnderlyingSystemType) as BaseMigrationEngine;
 
-                await engine.RunAfterAsync();
+            if (engine is null)
+            {
+                _logger.LogError("No migration engine defined");
+
+                throw new InvalidOperationException($"The type '{_options.GetType().GetGenericArguments()[0].Name}' must inherit from BaseMigrationEngine.");
             }
             else
             {
-                _logger.LogDebug("Application migrations are configured not to run");
-            }
+                if (engine.ShouldRun)
+                {
+                    PopulateApplicationMigrations(scope, engine);
 
-            _hasRun = true;
+                    await engine.RunBeforeAsync();
+
+                    await ApplyMigrationsAsync(engine, scope);
+
+                    await engine.RunAfterAsync();
+                }
+                else
+                {
+                    _logger.LogDebug("Application migrations are configured not to run");
+                }
+
+                _hasRun = true;
+            }
+        }
+        finally
+        {
+            _semaphore.Release();
         }
     }
 
     /// <summary>
-    /// 
+    /// Applies pending migrations within the specified version range.
     /// </summary>
-    /// <param name="engine"></param>
-    /// <param name="scope"></param>
-    /// <returns></returns>
+    /// <param name="engine">The migration engine providing version tracking.</param>
+    /// <param name="scope">The service scope for resolving scoped dependencies.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     private async Task ApplyMigrationsAsync(BaseMigrationEngine engine, IServiceScope scope)
     {
         var applied = (await engine.GetAppliedVersionAsync()).OrderBy(v => v);
@@ -162,11 +190,11 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
     }
 
     /// <summary>
-    /// 
+    /// Determines whether a type inherits from the specified base type.
     /// </summary>
-    /// <param name="type"></param>
-    /// <param name="baseType"></param>
-    /// <returns></returns>
+    /// <param name="type">The type to check.</param>
+    /// <param name="baseType">The base type to look for in the inheritance chain.</param>
+    /// <returns><c>true</c> if <paramref name="type"/> inherits from <paramref name="baseType"/>; otherwise, <c>false</c>.</returns>
     private bool IsInheritingFrom(Type type, Type baseType)
     {
         while (type.BaseType != null)
@@ -183,10 +211,10 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
     }
 
     /// <summary>
-    /// 
+    /// Discovers and instantiates all migration classes from the engine's assembly.
     /// </summary>
-    /// <param name="scope"></param>
-    /// <param name="engine"></param>
+    /// <param name="scope">The service scope for resolving migration dependencies.</param>
+    /// <param name="engine">The migration engine whose assembly will be scanned for migrations.</param>
     private void PopulateApplicationMigrations(IServiceScope scope, BaseMigrationEngine engine)
     {
         _applicationMigrations = engine

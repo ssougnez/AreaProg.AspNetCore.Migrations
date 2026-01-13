@@ -49,7 +49,8 @@ services.AddApplicationMigrations<MyMigrationEngine>(options =>
 ### Public Interface
 
 `IApplicationMigrationEngine` exposes:
-- `Run()` - Executes pending migrations
+- `Run()` - Executes pending migrations synchronously
+- `RunAsync()` - Executes pending migrations asynchronously
 - `HasRun` - Indicates if migrations have executed
 
 ## Key Implementation Details
