@@ -360,6 +360,25 @@ app.UseMigrations();
 await app.UseMigrationsAsync();
 ```
 
+## Demo Project
+
+A complete demo application is included in the repository to show all features in action:
+
+```bash
+cd AreaProg.AspNetCore.Migrations.Demo
+dotnet run
+```
+
+Then open http://localhost:5254/swagger to explore the API.
+
+The demo includes:
+- **AppMigrationEngine**: Full engine implementation with SQLite storage
+- **V1_0_0_InitialSetup**: Demonstrates `FirstTime` for seed data
+- **V1_1_0_AddCategories**: Demonstrates idempotent upsert patterns
+- **V1_2_0_AddProductMetrics**: Demonstrates `Cache` for data capture
+
+See the [Demo README](AreaProg.AspNetCore.Migrations.Demo/README.md) for details.
+
 ## Target Frameworks
 
 - .NET 6.0

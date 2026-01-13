@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.1.11312.151 d18.0
+VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AreaProg.AspNetCore.Migrations", "AreaProg.AspNetCore.Migrations\AreaProg.AspNetCore.Migrations.csproj", "{3ECB978F-5F5C-4AB6-9EA0-2014A28D8CDC}"
 EndProject
@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{2F5F103B
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.AspNetCore.Migrations.Tests", "AreaProg.AspNetCore.Migrations.Tests\AreaProg.AspNetCore.Migrations.Tests.csproj", "{7A2068EB-3ACD-440F-BD5B-DFC035E7E604}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.AspNetCore.Migrations.Demo", "AreaProg.AspNetCore.Migrations.Demo\AreaProg.AspNetCore.Migrations.Demo.csproj", "{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,18 @@ Global
 		{7A2068EB-3ACD-440F-BD5B-DFC035E7E604}.Release|x64.Build.0 = Release|Any CPU
 		{7A2068EB-3ACD-440F-BD5B-DFC035E7E604}.Release|x86.ActiveCfg = Release|Any CPU
 		{7A2068EB-3ACD-440F-BD5B-DFC035E7E604}.Release|x86.Build.0 = Release|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Debug|x64.Build.0 = Debug|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Debug|x86.Build.0 = Debug|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Release|x64.ActiveCfg = Release|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Release|x64.Build.0 = Release|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Release|x86.ActiveCfg = Release|Any CPU
+		{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
