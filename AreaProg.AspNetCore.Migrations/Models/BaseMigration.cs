@@ -1,6 +1,7 @@
 namespace AreaProg.AspNetCore.Migrations.Models;
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
@@ -57,6 +58,20 @@ public abstract class BaseMigration
     /// </para>
     /// </remarks>
     public bool FirstTime { get; internal set; }
+
+    /// <summary>
+    /// Gets a cache dictionary populated by <see cref="BaseMigrationEngine.RunBeforeDatabaseMigrationAsync"/>.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This cache contains data captured before EF Core migrations were applied.
+    /// Use it to access preserved data that was transformed by schema changes.
+    /// </para>
+    /// <para>
+    /// The cache is shared across all migrations in the same run.
+    /// </para>
+    /// </remarks>
+    public IDictionary<string, object> Cache { get; internal set; } = new Dictionary<string, object>();
 
     /// <summary>
     /// Method called to apply the migration.

@@ -3,7 +3,6 @@ namespace AreaProg.AspNetCore.Migrations.Extensions;
 using AreaProg.AspNetCore.Migrations.Interfaces;
 using AreaProg.AspNetCore.Migrations.Models;
 using AreaProg.AspNetCore.Migrations.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 

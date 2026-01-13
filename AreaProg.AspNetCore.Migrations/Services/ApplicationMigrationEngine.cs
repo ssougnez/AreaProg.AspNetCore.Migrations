@@ -7,6 +7,7 @@ using AreaProg.AspNetCore.Migrations.Extensions;
 using AreaProg.AspNetCore.Migrations.Interfaces;
 using AreaProg.AspNetCore.Migrations.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -119,6 +120,7 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine where T
         var applied = (await engine.GetAppliedVersionAsync()).OrderBy(v => v);
         var target = _applicationMigrations.LastOrDefault()?.Version ?? new Version(0, 0, 0);
         var current = applied.LastOrDefault() ?? new Version(0, 0, 0);
+        var cache = new Dictionary<string, object>();
 
         if (current <= target)
         {
@@ -126,6 +128,15 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine where T
 
             if (dbContext != null)
             {
+                var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+
+                if (pendingMigrations.Any())
+                {
+                    _logger.LogDebug("Found {Count} pending EF Core migrations, executing pre-migration hook", pendingMigrations.Count());
+
+                    await engine.RunBeforeDatabaseMigrationAsync(cache);
+                }
+
                 var strategy = dbContext.Database.CreateExecutionStrategy();
 
                 _logger.LogInformation("Applying Entity Framework Core migrations...");
@@ -151,6 +162,7 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine where T
                 _logger.LogInformation("Applying version {Version}", migration.Version);
 
                 migration.FirstTime = !applied.Any(v => v == migration.Version);
+                migration.Cache = cache;
 
                 if (dbContext != null)
                 {

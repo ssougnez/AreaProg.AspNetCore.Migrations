@@ -35,7 +35,7 @@ The library uses an abstract base class pattern for extensibility:
    - Discovers `BaseMigration` implementations via reflection from assembly containing type `T`
    - Executes migrations sequentially based on version ordering
    - Wraps migrations in EF Core transactions when DbContext is configured
-   - Provides lifecycle hooks: `RunBeforeAsync()`, `RunAfterAsync()`, `RunAfterDatabaseMigrationAsync()`
+   - Provides lifecycle hooks: `RunBeforeAsync()`, `RunBeforeDatabaseMigrationAsync()`, `RunAfterDatabaseMigrationAsync()`, `RunAfterAsync()`
 
 ### DI Registration
 
@@ -100,3 +100,41 @@ To handle re-execution, use one of these strategies:
 2. **Design idempotent migrations** - Methods that are safe to re-execute (upserts, "create if not exists", etc.)
 
 The `FirstTime` flag is `true` when the migration version has never been registered, `false` on re-executions. During debugging, you can bypass the `FirstTime` check by moving the execution pointer.
+
+### Pre-Migration Data Capture (Schema Change Workflow)
+
+When changing column types (e.g., enum to string), you may need to capture existing data before the schema change and transform it afterward. The `RunBeforeDatabaseMigrationAsync` hook and `Cache` property enable this:
+
+```csharp
+// In your MigrationEngine
+public override async Task RunBeforeDatabaseMigrationAsync(IDictionary<string, object> cache)
+{
+    // Capture data before EF Core changes the schema
+    var oldValues = await _dbContext.Database
+        .SqlQueryRaw<OldStatusRecord>("SELECT Id, Status FROM Orders")
+        .ToListAsync();
+
+    cache["OrderStatuses"] = oldValues;
+}
+
+// In your migration
+public override async Task UpAsync()
+{
+    if (Cache.TryGetValue("OrderStatuses", out var data))
+    {
+        var oldStatuses = (List<OldStatusRecord>)data;
+        foreach (var record in oldStatuses)
+        {
+            var newStatus = record.Status switch
+            {
+                0 => "pending",
+                1 => "complete",
+                _ => "unknown"
+            };
+            // Transform the data after schema change
+        }
+    }
+}
+```
+
+**Important:** The `RunBeforeDatabaseMigrationAsync` hook is **only called when there are pending EF Core migrations**, avoiding performance impact on regular application startups.

@@ -1,6 +1,7 @@
 namespace AreaProg.AspNetCore.Migrations.Models;
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
@@ -13,7 +14,8 @@ using System.Threading.Tasks;
 /// </para>
 /// <para>
 /// The engine provides lifecycle hooks (<see cref="RunBeforeAsync"/>, <see cref="RunAfterAsync"/>,
-/// <see cref="RunAfterDatabaseMigrationAsync"/>) that can be overridden to execute custom logic during the migration process.
+/// <see cref="RunBeforeDatabaseMigrationAsync"/>, <see cref="RunAfterDatabaseMigrationAsync"/>)
+/// that can be overridden to execute custom logic during the migration process.
 /// </para>
 /// </remarks>
 [ExcludeFromCodeCoverage]
@@ -58,6 +60,27 @@ public abstract class BaseMigrationEngine
     /// </remarks>
     /// <returns>A task representing the asynchronous operation.</returns>
     public virtual Task RunBeforeAsync() => Task.CompletedTask;
+
+    /// <summary>
+    /// Called immediately before Entity Framework Core database migrations are applied.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Override this method to capture data that will be transformed by schema migrations.
+    /// This is useful when changing column types (e.g., enum to string) where you need to
+    /// preserve and transform existing data.
+    /// </para>
+    /// <para>
+    /// This hook is only called when there are pending EF Core migrations.
+    /// </para>
+    /// <para>
+    /// Data stored in the <paramref name="cache"/> dictionary will be available in
+    /// <see cref="BaseMigration.Cache"/> during application migrations.
+    /// </para>
+    /// </remarks>
+    /// <param name="cache">A dictionary to store data that will be passed to application migrations.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public virtual Task RunBeforeDatabaseMigrationAsync(IDictionary<string, object> cache) => Task.CompletedTask;
 
     /// <summary>
     /// Called immediately after Entity Framework Core database migrations have been applied.
