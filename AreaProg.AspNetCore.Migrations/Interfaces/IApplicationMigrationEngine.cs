@@ -1,11 +1,12 @@
 namespace AreaProg.AspNetCore.Migrations.Interfaces;
 
+using System;
 using System.Threading.Tasks;
 
 /// <summary>
 /// Defines the contract for an application migration engine.
 /// </summary>
-public interface IApplicationMigrationEngine
+public interface IApplicationMigrationEngine : IDisposable
 {
     /// <summary>
     /// Gets a value indicating whether the migrations have been applied.

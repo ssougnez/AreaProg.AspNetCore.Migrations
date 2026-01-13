@@ -217,4 +217,11 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine
             .OrderBy(t => t.Version)
             .ToArray();
     }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        _semaphore.Dispose();
+        GC.SuppressFinalize(this);
+    }
 }
