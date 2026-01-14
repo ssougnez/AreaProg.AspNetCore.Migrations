@@ -117,7 +117,7 @@ public class ApplicationMigrationEngine<T> : IApplicationMigrationEngine where T
     /// <returns>A task representing the asynchronous operation.</returns>
     private async Task ApplyMigrationsAsync(BaseMigrationEngine engine, IServiceScope scope)
     {
-        var applied = (await engine.GetAppliedVersionAsync()).OrderBy(v => v);
+        var applied = (await engine.GetAppliedVersionsAsync()).OrderBy(v => v);
         var target = _applicationMigrations.LastOrDefault()?.Version ?? new Version(0, 0, 0);
         var current = applied.LastOrDefault() ?? new Version(0, 0, 0);
         var cache = new Dictionary<string, object>();

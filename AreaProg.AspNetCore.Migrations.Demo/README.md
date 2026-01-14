@@ -40,7 +40,7 @@ The `AppMigrationEngine` class shows how to implement `BaseMigrationEngine`:
 ```csharp
 public class AppMigrationEngine : BaseMigrationEngine
 {
-    public override async Task<Version[]> GetAppliedVersionAsync()
+    public override async Task<Version[]> GetAppliedVersionsAsync()
     {
         // Retrieve applied versions from database
     }

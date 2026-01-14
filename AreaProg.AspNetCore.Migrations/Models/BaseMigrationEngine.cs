@@ -34,7 +34,7 @@ public abstract class BaseMigrationEngine
     /// Returns all application versions that have been previously applied.
     /// </summary>
     /// <returns>An array of versions that have been applied, used to determine which migrations to run.</returns>
-    public abstract Task<Version[]> GetAppliedVersionAsync();
+    public abstract Task<Version[]> GetAppliedVersionsAsync();
 
     /// <summary>
     /// Registers a version as applied in the external storage system.

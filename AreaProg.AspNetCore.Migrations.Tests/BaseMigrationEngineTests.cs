@@ -37,20 +37,20 @@ public class BaseMigrationEngineTests
     }
 
     [Fact]
-    public async Task GetAppliedVersionAsync_WithNoVersions_ShouldReturnEmptyArray()
+    public async Task GetAppliedVersionsAsync_WithNoVersions_ShouldReturnEmptyArray()
     {
         // Arrange
         var engine = new TestMigrationEngine();
 
         // Act
-        var versions = await engine.GetAppliedVersionAsync();
+        var versions = await engine.GetAppliedVersionsAsync();
 
         // Assert
         versions.Should().BeEmpty();
     }
 
     [Fact]
-    public async Task GetAppliedVersionAsync_WithVersions_ShouldReturnAllVersions()
+    public async Task GetAppliedVersionsAsync_WithVersions_ShouldReturnAllVersions()
     {
         // Arrange
         var expectedVersions = new[]
@@ -62,7 +62,7 @@ public class BaseMigrationEngineTests
         var engine = new TestMigrationEngine(expectedVersions);
 
         // Act
-        var versions = await engine.GetAppliedVersionAsync();
+        var versions = await engine.GetAppliedVersionsAsync();
 
         // Assert
         versions.Should().BeEquivalentTo(expectedVersions);
@@ -113,7 +113,7 @@ public class BaseMigrationEngineTests
 
         // Act
         await engine.RegisterVersionAsync(version);
-        var appliedVersions = await engine.GetAppliedVersionAsync();
+        var appliedVersions = await engine.GetAppliedVersionsAsync();
 
         // Assert
         appliedVersions.Should().Contain(version);
@@ -264,14 +264,14 @@ public class BaseMigrationEngineTests
     }
 
     [Fact]
-    public void FailingMigrationEngine_GetAppliedVersionAsync_ShouldThrow()
+    public void FailingMigrationEngine_GetAppliedVersionsAsync_ShouldThrow()
     {
         // Arrange
         var expectedException = new InvalidOperationException("Test error");
         var engine = new FailingMigrationEngine(expectedException);
 
         // Act & Assert
-        var action = async () => await engine.GetAppliedVersionAsync();
+        var action = async () => await engine.GetAppliedVersionsAsync();
         action.Should().ThrowAsync<InvalidOperationException>()
             .WithMessage("Test error");
     }
@@ -339,7 +339,7 @@ public class BaseMigrationEngineTests
         engine.AddAppliedVersion(version);
 
         // Assert
-        var versions = await engine.GetAppliedVersionAsync();
+        var versions = await engine.GetAppliedVersionsAsync();
         versions.Should().Contain(version);
     }
 }

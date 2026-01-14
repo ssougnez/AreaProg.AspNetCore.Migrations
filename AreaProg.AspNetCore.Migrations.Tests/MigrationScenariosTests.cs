@@ -254,7 +254,7 @@ public class ErrorHandlingTests
         var engine = new FailingMigrationEngine(expectedException);
 
         // Act & Assert
-        var action = () => engine.GetAppliedVersionAsync();
+        var action = () => engine.GetAppliedVersionsAsync();
         action.Should().ThrowAsync<InvalidOperationException>();
     }
 

@@ -74,7 +74,7 @@ public class TestMigrationEngine : BaseMigrationEngine
         _appliedVersions.Add(version);
     }
 
-    public override Task<Version[]> GetAppliedVersionAsync()
+    public override Task<Version[]> GetAppliedVersionsAsync()
     {
         return Task.FromResult(_appliedVersions.ToArray());
     }
@@ -154,7 +154,7 @@ public class FailingMigrationEngine : BaseMigrationEngine
         _exception = exception;
     }
 
-    public override Task<Version[]> GetAppliedVersionAsync()
+    public override Task<Version[]> GetAppliedVersionsAsync()
     {
         throw _exception;
     }
@@ -172,7 +172,7 @@ public class DisabledMigrationEngine : BaseMigrationEngine
 {
     public override bool ShouldRun => false;
 
-    public override Task<Version[]> GetAppliedVersionAsync()
+    public override Task<Version[]> GetAppliedVersionsAsync()
     {
         return Task.FromResult(Array.Empty<Version>());
     }

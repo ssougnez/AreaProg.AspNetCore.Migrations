@@ -53,7 +53,7 @@ public class MyMigrationEngine : BaseMigrationEngine
         _db = db;
     }
 
-    public override async Task<Version[]> GetAppliedVersionAsync()
+    public override async Task<Version[]> GetAppliedVersionsAsync()
     {
         return await _db.AppliedMigrations
             .Select(m => new Version(m.Version))

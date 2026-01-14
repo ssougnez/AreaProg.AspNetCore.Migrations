@@ -41,7 +41,7 @@ public class AppMigrationEngine : BaseMigrationEngine
     /// <summary>
     /// Retrieves all previously applied migration versions from the database.
     /// </summary>
-    public override async Task<Version[]> GetAppliedVersionAsync()
+    public override async Task<Version[]> GetAppliedVersionsAsync()
     {
         // Check if the MigrationHistory table exists before querying
         // This handles the first-run scenario where EF Core migrations haven't run yet
