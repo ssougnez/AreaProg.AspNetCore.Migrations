@@ -18,6 +18,8 @@ This library provides **application migrations** - versioned code that runs once
 dotnet add package AreaProg.AspNetCore.Migrations
 ```
 
+> **Upgrading from v1.x?** See the [CHANGELOG.md](CHANGELOG.md) for breaking changes and migration guide.
+
 ## Quick Start
 
 ### 1. Add the AppliedMigration Entity to Your DbContext
