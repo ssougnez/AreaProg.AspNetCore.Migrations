@@ -16,8 +16,8 @@
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 
-		<RepositoryUrl>https://github.com/ssougnez/AreaProg.AspNetCore.Migrations</RepositoryUrl>
-		<PackageProjectUrl>https://github.com/ssougnez/AreaProg.AspNetCore.Migrations</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/ssougnez/AreaProg.Migrations</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/ssougnez/AreaProg.Migrations</PackageProjectUrl>
 
 		<!-- Versioning (overridden by CI when publishing) -->
 		<Version>0.0.0-local</Version>
