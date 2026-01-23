@@ -282,15 +282,15 @@ public class Migration_1_1_0(MyDbContext db, IEmailService email) : BaseMigratio
 
 ## Controlling Re-execution with `EnforceLatestMigration`
 
-By default, the migration matching the current registered version is **re-executed on each application startup**. This facilitates development workflows:
+By default, only migrations with versions strictly greater than the current registered version are executed. This is the recommended behavior for production environments.
 
-- Iterate on a migration without manually rolling back the database version
+### Enabling Re-execution in Development
+
+For development workflows, you can enable re-execution of the current version migration using `EnforceLatestMigration`. This facilitates:
+
+- Iterating on a migration without manually rolling back the database version
 - No need to delete version records or reset state between debugging sessions
-- Test your migration logic repeatedly until it works correctly
-
-### Disabling Re-execution in Production
-
-For production environments, you can disable this behavior using `EnforceLatestMigration`:
+- Testing your migration logic repeatedly until it works correctly
 
 ```csharp
 await app.UseMigrationsAsync(opts =>
@@ -301,10 +301,10 @@ await app.UseMigrationsAsync(opts =>
 
 | `EnforceLatestMigration` | Behavior |
 |--------------------------|----------|
-| `true` (default) | Re-executes current version migration (`>= current`) |
-| `false` | Only runs new migrations (`> current`) |
+| `false` (default) | Only runs new migrations (`> current`) |
+| `true` | Re-executes current version migration (`>= current`) |
 
-**Benefits of `EnforceLatestMigration = false` in production:**
+**Benefits of the default (`EnforceLatestMigration = false`):**
 - Faster startup (skips unnecessary re-execution)
 - Cleaner logs (no repeated "Applying version X.Y.Z" messages)
 - Makes re-execution an intentional development choice
@@ -592,10 +592,10 @@ host.RunMigrations();
 // Asynchronous
 await host.RunMigrationsAsync();
 
-// With options
+// With options (enable re-execution in development)
 await host.RunMigrationsAsync(opts =>
 {
-    opts.EnforceLatestMigration = false;
+    opts.EnforceLatestMigration = env.IsDevelopment();
 });
 ```
 

@@ -58,7 +58,7 @@ public static class HostExtensions
     ///
     /// host.RunMigrations(opts =>
     /// {
-    ///     opts.EnforceLatestMigration = true;
+    ///     opts.EnforceLatestMigration = env.IsDevelopment();
     /// });
     /// host.Run();
     /// </code>
@@ -117,7 +117,7 @@ public static class HostExtensions
     ///
     /// await host.RunMigrationsAsync(opts =>
     /// {
-    ///     opts.EnforceLatestMigration = true;
+    ///     opts.EnforceLatestMigration = env.IsDevelopment();
     /// });
     /// await host.RunAsync();
     /// </code>

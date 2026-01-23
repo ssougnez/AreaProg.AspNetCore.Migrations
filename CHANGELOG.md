@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking Changes
 
+#### `EnforceLatestMigration` default changed to `false`
+
+The default value for `EnforceLatestMigration` has changed from `true` to `false`. This means that by default, migrations will no longer re-execute the current version on each startup.
+
+**If you relied on the previous behavior** (automatic re-execution for development), explicitly enable it:
+
+```csharp
+await app.UseMigrationsAsync(opts =>
+{
+    opts.EnforceLatestMigration = env.IsDevelopment();
+});
+```
+
+| `EnforceLatestMigration` | Behavior |
+|--------------------------|----------|
+| `true` | Re-executes current version (development-friendly) |
+| `false` (new default) | Skips current version (production-recommended) |
+
 #### Package split: `AreaProg.Migrations` + `AreaProg.AspNetCore.Migrations`
 
 The library has been split into two packages for cleaner separation of concerns:
@@ -83,14 +101,14 @@ Control whether the current version migration is re-executed on startup:
 ```csharp
 await app.UseMigrationsAsync(opts =>
 {
-    opts.EnforceLatestMigration = false; // Skip re-execution in production
+    opts.EnforceLatestMigration = env.IsDevelopment(); // Enable re-execution in development
 });
 ```
 
 | `EnforceLatestMigration` | Behavior |
 |--------------------------|----------|
-| `true` (default) | Re-executes current version (development-friendly) |
-| `false` | Skips current version (production-recommended) |
+| `true` | Re-executes current version (development-friendly) |
+| `false` (default) | Skips current version (production-recommended) |
 
 ### Migration Guide from v2.x to v3.x
 

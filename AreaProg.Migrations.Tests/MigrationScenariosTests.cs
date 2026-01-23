@@ -475,12 +475,12 @@ public class EnforceLatestMigrationTests : IDisposable
     }
 
     [Fact]
-    public void UseMigrationsOptions_DefaultValue_ShouldBeTrue_ForBackwardCompatibility()
+    public void UseMigrationsOptions_DefaultValue_ShouldBeFalse()
     {
         // Arrange & Act
         var options = new UseMigrationsOptions();
 
-        // Assert - default is true for backward compatibility
-        options.EnforceLatestMigration.Should().BeTrue();
+        // Assert - default is false (production-friendly)
+        options.EnforceLatestMigration.Should().BeFalse();
     }
 }
