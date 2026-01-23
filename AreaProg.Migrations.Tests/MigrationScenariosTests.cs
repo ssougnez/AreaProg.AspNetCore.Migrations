@@ -408,7 +408,7 @@ public class EnforceLatestMigrationTests : IDisposable
     }
 
     [Fact]
-    public async Task DefaultBehavior_ShouldReExecuteCurrentVersion_ForBackwardCompatibility()
+    public async Task DefaultBehavior_ShouldNotReExecuteCurrentVersion()
     {
         // Arrange - Set up engine with version 3.0.0 already applied (latest)
         TestMigrationEngine.StaticPreAppliedVersions.Add(new Version(1, 0, 0));
@@ -421,14 +421,13 @@ public class EnforceLatestMigrationTests : IDisposable
         var serviceProvider = services.BuildServiceProvider();
         var engine = serviceProvider.GetRequiredService<IApplicationMigrationEngine>();
 
-        // Act - Run with default options (EnforceLatestMigration defaults to true)
+        // Act - Run with default options (EnforceLatestMigration defaults to false)
         await engine.RunAsync();
 
-        // Assert - Version 3 should re-execute (default is backward compatible)
+        // Assert - No migration should execute (default skips current version)
         Version1Migration.WasExecuted.Should().BeFalse();
         Version2Migration.WasExecuted.Should().BeFalse();
-        Version3Migration.WasExecuted.Should().BeTrue();
-        Version3Migration.FirstTimeWhenExecuted.Should().BeFalse(); // Re-execution
+        Version3Migration.WasExecuted.Should().BeFalse();
     }
 
     [Fact]
