@@ -34,9 +34,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // The DbContext option enables transactional migrations and EF Core integration.
 builder.Services.AddApplicationMigrations<DefaultSqlServerMigrationEngine, AppDbContext>();
 
-// Add Swagger for API documentation
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Add OpenAPI for API documentation
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
@@ -55,11 +54,10 @@ await app.UseMigrationsAsync(opt =>
     opt.EnforceLatestMigration = false;
 });
 
-// Configure Swagger in development
+// Configure OpenAPI in development
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();

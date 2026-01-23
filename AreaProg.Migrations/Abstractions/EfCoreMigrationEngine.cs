@@ -90,10 +90,12 @@ public abstract class EfCoreMigrationEngine(IServiceProvider serviceProvider, Ty
 
     private static bool IsTableNotExistsException(Exception ex)
     {
-        // Check the inner exception for database-level errors
+        // Check both the exception itself and its inner exception for database-level errors
         // Common patterns across providers: "Invalid object name" (SQL Server),
         // "does not exist" (PostgreSQL), "no such table" (SQLite)
-        if (ex.InnerException is DbException dbEx)
+        var dbEx = ex as DbException ?? ex.InnerException as DbException;
+
+        if (dbEx is not null)
         {
             var message = dbEx.Message;
             return message.Contains("Invalid object name", StringComparison.OrdinalIgnoreCase)

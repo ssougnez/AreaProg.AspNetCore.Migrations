@@ -66,7 +66,13 @@ public class V1_2_0_AddProductMetrics(AppDbContext dbContext, ILogger<V1_2_0_Add
     private async Task<bool> TableExistsAsync(string tableName)
     {
         var connection = dbContext.Database.GetDbConnection();
-        await connection.OpenAsync();
+        var wasOpen = connection.State == System.Data.ConnectionState.Open;
+
+        if (!wasOpen)
+        {
+            await connection.OpenAsync();
+        }
+
         try
         {
             using var command = connection.CreateCommand();
@@ -80,7 +86,10 @@ public class V1_2_0_AddProductMetrics(AppDbContext dbContext, ILogger<V1_2_0_Add
         }
         finally
         {
-            await connection.CloseAsync();
+            if (!wasOpen)
+            {
+                await connection.CloseAsync();
+            }
         }
     }
 }
