@@ -1,7 +1,7 @@
-namespace AreaProg.AspNetCore.Migrations.ConsoleDemo.Migrations;
+namespace AreaProg.Migrations.ConsoleDemo.Migrations;
 
-using AreaProg.AspNetCore.Migrations.Abstractions;
-using AreaProg.AspNetCore.Migrations.Extensions;
+using AreaProg.Migrations.Abstractions;
+using AreaProg.Migrations.Extensions;
 using Microsoft.Extensions.Logging;
 
 public class ConsoleMigrationEngine(

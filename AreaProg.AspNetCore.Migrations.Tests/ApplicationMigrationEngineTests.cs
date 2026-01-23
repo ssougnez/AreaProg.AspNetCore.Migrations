@@ -1,8 +1,9 @@
 namespace AreaProg.AspNetCore.Migrations.Tests;
 
+using AreaProg.Migrations.Extensions;
 using AreaProg.AspNetCore.Migrations.Extensions;
-using AreaProg.AspNetCore.Migrations.Interfaces;
-using AreaProg.AspNetCore.Migrations.Services;
+using AreaProg.Migrations.Interfaces;
+using AreaProg.Migrations.Services;
 using AreaProg.AspNetCore.Migrations.Tests.Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;

@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AreaProg.Migrations\AreaProg.Migrations.csproj" />
     <ProjectReference Include="..\AreaProg.AspNetCore.Migrations\AreaProg.AspNetCore.Migrations.csproj" />
   </ItemGroup>
 

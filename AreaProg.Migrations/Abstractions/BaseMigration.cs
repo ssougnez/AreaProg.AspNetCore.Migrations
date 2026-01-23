@@ -1,4 +1,4 @@
-namespace AreaProg.AspNetCore.Migrations.Abstractions;
+namespace AreaProg.Migrations.Abstractions;
 
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-namespace AreaProg.AspNetCore.Migrations.Models;
+namespace AreaProg.Migrations.Models;
 
 using System;
 using System.ComponentModel.DataAnnotations;

@@ -1,7 +1,7 @@
-namespace AreaProg.AspNetCore.Migrations.Engines;
+namespace AreaProg.Migrations.Engines;
 
-using AreaProg.AspNetCore.Migrations.Abstractions;
-using AreaProg.AspNetCore.Migrations.Extensions;
+using AreaProg.Migrations.Abstractions;
+using AreaProg.Migrations.Extensions;
 using System;
 
 /// <summary>

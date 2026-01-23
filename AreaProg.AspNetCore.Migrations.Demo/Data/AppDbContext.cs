@@ -1,5 +1,5 @@
 using AreaProg.AspNetCore.Migrations.Demo.Data.Entities;
-using AreaProg.AspNetCore.Migrations.Models;
+using AreaProg.Migrations.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AreaProg.AspNetCore.Migrations.Demo.Data;

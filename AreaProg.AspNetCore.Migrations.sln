@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.AspNetCore.Migrati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.AspNetCore.Migrations.ConsoleDemo", "AreaProg.AspNetCore.Migrations.ConsoleDemo\AreaProg.AspNetCore.Migrations.ConsoleDemo.csproj", "{DE2CB4CD-A5F3-4E2F-A9E0-34BD7267D029}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.Migrations", "AreaProg.Migrations\AreaProg.Migrations.csproj", "{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{DE2CB4CD-A5F3-4E2F-A9E0-34BD7267D029}.Release|x64.Build.0 = Release|Any CPU
 		{DE2CB4CD-A5F3-4E2F-A9E0-34BD7267D029}.Release|x86.ActiveCfg = Release|Any CPU
 		{DE2CB4CD-A5F3-4E2F-A9E0-34BD7267D029}.Release|x86.Build.0 = Release|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Debug|x64.Build.0 = Debug|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Debug|x86.Build.0 = Debug|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Release|x64.ActiveCfg = Release|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Release|x64.Build.0 = Release|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Release|x86.ActiveCfg = Release|Any CPU
+		{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

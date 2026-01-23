@@ -1,7 +1,7 @@
 namespace AreaProg.AspNetCore.Migrations.Tests;
 
-using AreaProg.AspNetCore.Migrations.Interfaces;
-using AreaProg.AspNetCore.Migrations.Models;
+using AreaProg.Migrations.Interfaces;
+using AreaProg.Migrations.Models;
 using FluentAssertions;
 using Moq;
 using Xunit;

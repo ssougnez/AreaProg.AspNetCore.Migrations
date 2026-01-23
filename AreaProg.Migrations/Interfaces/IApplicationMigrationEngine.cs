@@ -1,6 +1,6 @@
-namespace AreaProg.AspNetCore.Migrations.Interfaces;
+namespace AreaProg.Migrations.Interfaces;
 
-using AreaProg.AspNetCore.Migrations.Models;
+using AreaProg.Migrations.Models;
 using System;
 using System.Threading.Tasks;
 

@@ -1,10 +1,15 @@
-# AreaProg.AspNetCore.Migrations
+# AreaProg.Migrations
 
 Application-level migrations for .NET applications. Run versioned code at startup, complementing Entity Framework Core database migrations.
 
 Works with ASP.NET Core, console applications, and worker services.
 
-> **Note:** The "AspNetCore" in the package name is historical. Since v2.2.0, the library fully supports non-ASP.NET Core applications (console apps, worker services, etc.) via `IHost` extensions.
+## Package Structure
+
+| Package | Use Case |
+|---------|----------|
+| `AreaProg.Migrations` | Console apps, worker services, or any non-ASP.NET Core application |
+| `AreaProg.AspNetCore.Migrations` | ASP.NET Core applications (includes `IApplicationBuilder` extensions) |
 
 ## Why use this?
 
@@ -18,11 +23,23 @@ This library provides **application migrations** - versioned code that runs once
 
 ## Installation
 
+**For ASP.NET Core applications:**
+
 ```bash
 dotnet add package AreaProg.AspNetCore.Migrations
 ```
 
-> **Upgrading from v1.x?** See the [CHANGELOG.md](CHANGELOG.md) for breaking changes and migration guide.
+This package depends on `AreaProg.Migrations` and adds `IApplicationBuilder` extensions (`UseMigrations`, `UseMigrationsAsync`).
+
+**For console applications or worker services:**
+
+```bash
+dotnet add package AreaProg.Migrations
+```
+
+This core package has no ASP.NET Core dependencies. Use `IHost` extensions (`RunMigrations`, `RunMigrationsAsync`).
+
+> **Upgrading from v2.x?** See the [CHANGELOG.md](CHANGELOG.md) for breaking changes and migration guide.
 
 ## Quick Start
 
@@ -31,7 +48,7 @@ dotnet add package AreaProg.AspNetCore.Migrations
 The library provides an `AppliedMigration` entity for tracking versions:
 
 ```csharp
-using AreaProg.AspNetCore.Migrations.Models;
+using AreaProg.Migrations.Models;
 
 public class MyDbContext : DbContext
 {
@@ -54,8 +71,8 @@ builder.Services.AddApplicationMigrations<DefaultEfCoreMigrationEngine, MyDbCont
 **Option B: Create a custom engine (for lifecycle hooks)**
 
 ```csharp
-using AreaProg.AspNetCore.Migrations.Abstractions;
-using AreaProg.AspNetCore.Migrations.Extensions;
+using AreaProg.Migrations.Abstractions;
+using AreaProg.Migrations.Extensions;
 
 public class MyMigrationEngine(
     ApplicationMigrationsOptions options,
@@ -94,6 +111,9 @@ public class Migration_1_0_0(MyDbContext db) : BaseMigration
 
 ```csharp
 // Program.cs
+using AreaProg.Migrations.Extensions;
+using AreaProg.AspNetCore.Migrations.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<MyDbContext>(...);
@@ -110,6 +130,8 @@ app.Run();
 
 ```csharp
 // Program.cs
+using AreaProg.Migrations.Extensions;
+
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
@@ -145,8 +167,8 @@ builder.Services.AddApplicationMigrations<DefaultSqlServerMigrationEngine, MyDbC
 **Option B: Create a custom engine (for custom lock settings or hooks)**
 
 ```csharp
-using AreaProg.AspNetCore.Migrations.Abstractions;
-using AreaProg.AspNetCore.Migrations.Extensions;
+using AreaProg.Migrations.Abstractions;
+using AreaProg.Migrations.Extensions;
 
 public class MyMigrationEngine(
     ApplicationMigrationsOptions options,
@@ -702,9 +724,11 @@ Your engine can store versions anywhere: a file, Redis, a custom table via raw S
 
 ### Can I use this in a console app or worker service?
 
-**Yes.** Use the `IHost` extension methods:
+**Yes.** Use the `IHost` extension methods from the `AreaProg.Migrations` package:
 
 ```csharp
+using AreaProg.Migrations.Extensions;
+
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {

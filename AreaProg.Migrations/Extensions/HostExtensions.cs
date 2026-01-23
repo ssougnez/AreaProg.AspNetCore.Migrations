@@ -1,9 +1,9 @@
-namespace AreaProg.AspNetCore.Migrations.Extensions;
+namespace AreaProg.Migrations.Extensions;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AreaProg.AspNetCore.Migrations.Interfaces;
-using AreaProg.AspNetCore.Migrations.Models;
+using AreaProg.Migrations.Interfaces;
+using AreaProg.Migrations.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 /// <remarks>
 /// These extensions allow running migrations in any .NET host, including console applications,
 /// worker services, and ASP.NET Core applications. For ASP.NET Core applications, you can also
-/// use the <see cref="ApplicationBuilderExtensions"/> for integration with the request pipeline.
+/// use the AreaProg.AspNetCore.Migrations package which provides IApplicationBuilder extensions.
 /// </remarks>
 public static class HostExtensions
 {
@@ -24,8 +24,8 @@ public static class HostExtensions
     /// <returns>The host for chaining.</returns>
     /// <remarks>
     /// This method is designed for non-ASP.NET Core hosts (console apps, worker services).
-    /// For ASP.NET Core applications using <c>WebApplication</c>, prefer using
-    /// <see cref="ApplicationBuilderExtensions.UseMigrations(Microsoft.AspNetCore.Builder.IApplicationBuilder)"/> instead.
+    /// For ASP.NET Core applications using WebApplication, use the UseMigrations extension
+    /// from the AreaProg.AspNetCore.Migrations package instead.
     /// </remarks>
     /// <example>
     /// <code>
@@ -47,8 +47,8 @@ public static class HostExtensions
     /// <returns>The host for chaining.</returns>
     /// <remarks>
     /// This method is designed for non-ASP.NET Core hosts (console apps, worker services).
-    /// For ASP.NET Core applications using <c>WebApplication</c>, prefer using
-    /// <see cref="ApplicationBuilderExtensions.UseMigrations(Microsoft.AspNetCore.Builder.IApplicationBuilder, Action{UseMigrationsOptions})"/> instead.
+    /// For ASP.NET Core applications using WebApplication, use the UseMigrations extension
+    /// from the AreaProg.AspNetCore.Migrations package instead.
     /// </remarks>
     /// <example>
     /// <code>
@@ -83,8 +83,8 @@ public static class HostExtensions
     /// <returns>A task representing the asynchronous operation, containing the host for chaining.</returns>
     /// <remarks>
     /// This method is designed for non-ASP.NET Core hosts (console apps, worker services).
-    /// For ASP.NET Core applications using <c>WebApplication</c>, prefer using
-    /// <see cref="ApplicationBuilderExtensions.UseMigrationsAsync(Microsoft.AspNetCore.Builder.IApplicationBuilder)"/> instead.
+    /// For ASP.NET Core applications using WebApplication, use the UseMigrationsAsync extension
+    /// from the AreaProg.AspNetCore.Migrations package instead.
     /// </remarks>
     /// <example>
     /// <code>
@@ -106,8 +106,8 @@ public static class HostExtensions
     /// <returns>A task representing the asynchronous operation, containing the host for chaining.</returns>
     /// <remarks>
     /// This method is designed for non-ASP.NET Core hosts (console apps, worker services).
-    /// For ASP.NET Core applications using <c>WebApplication</c>, prefer using
-    /// <see cref="ApplicationBuilderExtensions.UseMigrationsAsync(Microsoft.AspNetCore.Builder.IApplicationBuilder, Action{UseMigrationsOptions})"/> instead.
+    /// For ASP.NET Core applications using WebApplication, use the UseMigrationsAsync extension
+    /// from the AreaProg.AspNetCore.Migrations package instead.
     /// </remarks>
     /// <example>
     /// <code>

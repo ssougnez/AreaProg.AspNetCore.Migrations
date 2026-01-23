@@ -1,4 +1,4 @@
-namespace AreaProg.AspNetCore.Migrations.Models;
+namespace AreaProg.Migrations.Models;
 
 /// <summary>
 /// Configuration options for running application migrations.

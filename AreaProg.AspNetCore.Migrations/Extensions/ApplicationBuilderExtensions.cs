@@ -2,8 +2,8 @@ namespace AreaProg.AspNetCore.Migrations.Extensions;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using AreaProg.AspNetCore.Migrations.Interfaces;
-using AreaProg.AspNetCore.Migrations.Models;
+using AreaProg.Migrations.Interfaces;
+using AreaProg.Migrations.Models;
 using System;
 using System.Threading.Tasks;
 

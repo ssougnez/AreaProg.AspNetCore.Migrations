@@ -1,7 +1,7 @@
-using AreaProg.AspNetCore.Migrations.Models;
+using AreaProg.Migrations.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AreaProg.AspNetCore.Migrations.ConsoleDemo.Data;
+namespace AreaProg.Migrations.ConsoleDemo.Data;
 
 public class ConsoleDbContext : DbContext
 {

@@ -1,8 +1,8 @@
-namespace AreaProg.AspNetCore.Migrations.Extensions;
+namespace AreaProg.Migrations.Extensions;
 
-using AreaProg.AspNetCore.Migrations.Abstractions;
-using AreaProg.AspNetCore.Migrations.Interfaces;
-using AreaProg.AspNetCore.Migrations.Services;
+using AreaProg.Migrations.Abstractions;
+using AreaProg.Migrations.Interfaces;
+using AreaProg.Migrations.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;

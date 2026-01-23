@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AreaProg.AspNetCore.Migrations.ConsoleDemo.Data.EFMigrations
+namespace AreaProg.Migrations.ConsoleDemo.Data.EFMigrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

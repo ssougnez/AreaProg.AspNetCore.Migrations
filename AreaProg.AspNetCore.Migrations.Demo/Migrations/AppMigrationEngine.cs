@@ -1,7 +1,7 @@
 namespace AreaProg.AspNetCore.Migrations.Demo.Migrations;
 
-using AreaProg.AspNetCore.Migrations.Abstractions;
-using AreaProg.AspNetCore.Migrations.Extensions;
+using AreaProg.Migrations.Abstractions;
+using AreaProg.Migrations.Extensions;
 
 /// <summary>
 /// Application migration engine that stores version history in the database.

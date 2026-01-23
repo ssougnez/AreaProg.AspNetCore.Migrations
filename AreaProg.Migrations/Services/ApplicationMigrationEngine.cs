@@ -1,12 +1,12 @@
-﻿namespace AreaProg.AspNetCore.Migrations.Services;
+﻿namespace AreaProg.Migrations.Services;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using AreaProg.AspNetCore.Migrations.Abstractions;
-using AreaProg.AspNetCore.Migrations.Extensions;
-using AreaProg.AspNetCore.Migrations.Interfaces;
-using AreaProg.AspNetCore.Migrations.Models;
+using AreaProg.Migrations.Abstractions;
+using AreaProg.Migrations.Extensions;
+using AreaProg.Migrations.Interfaces;
+using AreaProg.Migrations.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
-using AreaProg.AspNetCore.Migrations.ConsoleDemo.Data;
-using AreaProg.AspNetCore.Migrations.ConsoleDemo.Migrations;
-using AreaProg.AspNetCore.Migrations.Extensions;
+using AreaProg.Migrations.ConsoleDemo.Data;
+using AreaProg.Migrations.ConsoleDemo.Migrations;
+using AreaProg.Migrations.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

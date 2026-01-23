@@ -1,6 +1,6 @@
-namespace AreaProg.AspNetCore.Migrations.Abstractions;
+namespace AreaProg.Migrations.Abstractions;
 
-using AreaProg.AspNetCore.Migrations.Models;
+using AreaProg.Migrations.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Data.Common;
