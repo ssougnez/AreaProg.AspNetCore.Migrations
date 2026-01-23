@@ -1,4 +1,4 @@
-namespace AreaProg.AspNetCore.Migrations.Demo.Data.Entities;
+namespace AreaProg.Migrations.Demo.Data.Entities;
 
 /// <summary>
 /// Represents a product in the catalog.

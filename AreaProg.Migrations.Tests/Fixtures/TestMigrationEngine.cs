@@ -1,4 +1,4 @@
-namespace AreaProg.AspNetCore.Migrations.Tests.Fixtures;
+namespace AreaProg.Migrations.Tests.Fixtures;
 
 using AreaProg.Migrations.Abstractions;
 using System;

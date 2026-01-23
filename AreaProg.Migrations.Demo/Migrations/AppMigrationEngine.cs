@@ -1,4 +1,4 @@
-namespace AreaProg.AspNetCore.Migrations.Demo.Migrations;
+namespace AreaProg.Migrations.Demo.Migrations;
 
 using AreaProg.Migrations.Abstractions;
 using AreaProg.Migrations.Extensions;

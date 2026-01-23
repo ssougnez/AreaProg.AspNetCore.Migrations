@@ -1,8 +1,8 @@
-using AreaProg.AspNetCore.Migrations.Demo.Data.Entities;
+using AreaProg.Migrations.Demo.Data.Entities;
 using AreaProg.Migrations.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AreaProg.AspNetCore.Migrations.Demo.Data;
+namespace AreaProg.Migrations.Demo.Data;
 
 /// <summary>
 /// Application database context for the demo application.

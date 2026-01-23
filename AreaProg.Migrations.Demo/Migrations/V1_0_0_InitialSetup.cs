@@ -1,7 +1,7 @@
-namespace AreaProg.AspNetCore.Migrations.Demo.Migrations;
+namespace AreaProg.Migrations.Demo.Migrations;
 
-using AreaProg.AspNetCore.Migrations.Demo.Data;
-using AreaProg.AspNetCore.Migrations.Demo.Data.Entities;
+using AreaProg.Migrations.Demo.Data;
+using AreaProg.Migrations.Demo.Data.Entities;
 using AreaProg.Migrations.Abstractions;
 using Microsoft.Extensions.Logging;
 

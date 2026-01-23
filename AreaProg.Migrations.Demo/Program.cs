@@ -1,6 +1,6 @@
-using AreaProg.AspNetCore.Migrations.Demo.Data;
-using AreaProg.AspNetCore.Migrations.Demo.Data.Entities;
-using AreaProg.AspNetCore.Migrations.Demo.Migrations;
+using AreaProg.Migrations.Demo.Data;
+using AreaProg.Migrations.Demo.Data.Entities;
+using AreaProg.Migrations.Demo.Migrations;
 using AreaProg.Migrations.Engines;
 using AreaProg.Migrations.Extensions;
 using AreaProg.AspNetCore.Migrations.Extensions;

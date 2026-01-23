@@ -19,11 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{2F5F103B
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.AspNetCore.Migrations.Tests", "AreaProg.AspNetCore.Migrations.Tests\AreaProg.AspNetCore.Migrations.Tests.csproj", "{7A2068EB-3ACD-440F-BD5B-DFC035E7E604}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.Migrations.Tests", "AreaProg.Migrations.Tests\AreaProg.Migrations.Tests.csproj", "{7A2068EB-3ACD-440F-BD5B-DFC035E7E604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.AspNetCore.Migrations.Demo", "AreaProg.AspNetCore.Migrations.Demo\AreaProg.AspNetCore.Migrations.Demo.csproj", "{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.Migrations.Demo", "AreaProg.Migrations.Demo\AreaProg.Migrations.Demo.csproj", "{09EA6102-0BD9-4EBD-84DD-6108B6F06EE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.AspNetCore.Migrations.ConsoleDemo", "AreaProg.AspNetCore.Migrations.ConsoleDemo\AreaProg.AspNetCore.Migrations.ConsoleDemo.csproj", "{DE2CB4CD-A5F3-4E2F-A9E0-34BD7267D029}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.Migrations.ConsoleDemo", "AreaProg.Migrations.ConsoleDemo\AreaProg.Migrations.ConsoleDemo.csproj", "{DE2CB4CD-A5F3-4E2F-A9E0-34BD7267D029}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaProg.Migrations", "AreaProg.Migrations\AreaProg.Migrations.csproj", "{8CF0C4CE-C25C-4107-B7FE-D760B93282F1}"
 EndProject

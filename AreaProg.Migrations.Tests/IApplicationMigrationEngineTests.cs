@@ -1,4 +1,4 @@
-namespace AreaProg.AspNetCore.Migrations.Tests;
+namespace AreaProg.Migrations.Tests;
 
 using AreaProg.Migrations.Interfaces;
 using AreaProg.Migrations.Models;
