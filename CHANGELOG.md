@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2026-02-27
+
+### Fixed
+
+#### EF Core migrations now apply independently of application migrations ([#4](https://github.com/ssougnez/AreaProg.Migrations/issues/4))
+
+Previously, EF Core database migrations were only checked and applied when there were pending application migrations. This caused issues when switching between Git branches where the registered app migration version was higher than the target version in the current codebase.
+
+**Scenario that was broken:**
+- Branch A: App version 1.0.9 applied, all EF migrations applied
+- Branch B: App version 1.0.7, but has a new EF Core migration
+- When switching to Branch B, the new EF Core migration would not apply because the registered version (1.0.9) was higher than the target (1.0.7)
+
+**Fix:** EF Core migrations are now decoupled from application migrations. They are always checked and applied when a DbContext is configured, regardless of the application migration version comparison.
+
+---
+
 ## [3.0.0] - 2026-01-23
 
 ### Breaking Changes

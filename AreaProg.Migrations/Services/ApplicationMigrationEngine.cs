@@ -118,50 +118,58 @@ public class ApplicationMigrationEngine<T>(
     /// <param name="scope">The service scope for resolving scoped dependencies.</param>
     /// <param name="runtimeOptions">The runtime options controlling migration behavior.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
+    /// <remarks>
+    /// EF Core migrations are applied independently of application migrations. This ensures
+    /// database schema changes are always applied, even when switching between branches
+    /// where the registered app migration version may be higher than the target version
+    /// in the current codebase.
+    /// </remarks>
     private async Task ApplyMigrationsAsync(BaseMigrationEngine engine, IServiceScope scope, UseMigrationsOptions runtimeOptions)
     {
         var applied = (await engine.GetAppliedVersionsAsync()).OrderBy(v => v);
         var target = _applicationMigrations.LastOrDefault()?.Version ?? new Version(0, 0, 0);
         var current = applied.LastOrDefault() ?? new Version(0, 0, 0);
 
-        if (current <= target)
-        {
-            var dbContext = ResolveDbContext(scope);
+        var dbContext = ResolveDbContext(scope);
 
-            // Determine which application migrations will run
-            // When EnforceLatestMigration is true, re-execute the current version migration (>= current)
-            // When EnforceLatestMigration is false (default), only run new migrations (> current)
-            var pendingAppMigrations = _applicationMigrations
+        // Determine which application migrations will run
+        // When EnforceLatestMigration is true, re-execute the current version migration (>= current)
+        // When EnforceLatestMigration is false (default), only run new migrations (> current)
+        // If current > target (e.g., switching to a branch with older app migrations), no app migrations run
+        var pendingAppMigrations = current <= target
+            ? _applicationMigrations
                 .Where(m => runtimeOptions.EnforceLatestMigration ? m.Version >= current : m.Version > current)
                 .Where(m => m.Version <= target)
                 .OrderBy(m => m.Version)
-                .ToList();
+                .ToList()
+            : new List<BaseMigration>();
 
-            // Set FirstTime and create isolated Cache for each migration
-            foreach (var migration in pendingAppMigrations)
+        // Set FirstTime and create isolated Cache for each migration
+        foreach (var migration in pendingAppMigrations)
+        {
+            migration.FirstTime = !applied.Any(v => v == migration.Version);
+            migration.Cache = new Dictionary<string, object>();
+        }
+
+        // Apply EF Core migrations independently of application migrations
+        // This ensures database schema changes are applied even when switching branches
+        if (dbContext is not null)
+        {
+            var pendingEfMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+
+            if (pendingEfMigrations.Any())
             {
-                migration.FirstTime = !applied.Any(v => v == migration.Version);
-                migration.Cache = new Dictionary<string, object>();
-            }
+                logger.LogDebug("Found {Count} pending EF Core migrations, executing pre-migration hooks", pendingEfMigrations.Count());
 
-            if (dbContext is not null)
-            {
-                var pendingEfMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+                // Global engine hook
+                await engine.RunBeforeDatabaseMigrationAsync();
 
-                if (pendingEfMigrations.Any())
+                // Per-migration hooks (only for pending app migrations)
+                foreach (var migration in pendingAppMigrations)
                 {
-                    logger.LogDebug("Found {Count} pending EF Core migrations, executing pre-migration hooks", pendingEfMigrations.Count());
+                    logger.LogDebug("Calling PrepareMigrationAsync for version {Version}", migration.Version);
 
-                    // Global engine hook
-                    await engine.RunBeforeDatabaseMigrationAsync();
-
-                    // Per-migration hooks
-                    foreach (var migration in pendingAppMigrations)
-                    {
-                        logger.LogDebug("Calling PrepareMigrationAsync for version {Version}", migration.Version);
-
-                        await migration.PrepareMigrationAsync(migration.Cache);
-                    }
+                    await migration.PrepareMigrationAsync(migration.Cache);
                 }
 
                 logger.LogInformation("Applying Entity Framework Core migrations...");
@@ -172,34 +180,35 @@ public class ApplicationMigrationEngine<T>(
 
                 await engine.RunAfterDatabaseMigrationAsync();
             }
+        }
 
-            foreach (var migration in pendingAppMigrations)
+        // Apply pending application migrations
+        foreach (var migration in pendingAppMigrations)
+        {
+            logger.LogInformation("Applying version {Version}", migration.Version);
+
+            if (dbContext is not null)
             {
-                logger.LogInformation("Applying version {Version}", migration.Version);
+                using var transaction = await dbContext.Database.BeginTransactionAsync();
 
-                if (dbContext is not null)
-                {
-                    using var transaction = await dbContext.Database.BeginTransactionAsync();
+                await migration.UpAsync();
 
-                    await migration.UpAsync();
+                await transaction.CommitAsync();
+            }
+            else
+            {
+                await migration.UpAsync();
+            }
 
-                    await transaction.CommitAsync();
-                }
-                else
-                {
-                    await migration.UpAsync();
-                }
+            logger.LogInformation("Version {Version} applied", migration.Version);
 
-                logger.LogInformation("Version {Version} applied", migration.Version);
+            if (migration.Version != current)
+            {
+                logger.LogInformation("Registering version {Version}...", migration.Version);
 
-                if (migration.Version != current)
-                {
-                    logger.LogInformation("Registering version {Version}...", migration.Version);
+                await engine.RegisterVersionAsync(migration.Version);
 
-                    await engine.RegisterVersionAsync(migration.Version);
-
-                    logger.LogInformation("Version {Version} registered", migration.Version);
-                }
+                logger.LogInformation("Version {Version} registered", migration.Version);
             }
         }
     }
